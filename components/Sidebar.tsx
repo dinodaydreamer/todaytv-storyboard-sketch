@@ -3,14 +3,18 @@ import React from 'react';
 import { StoryScene, ShotType, AspectRatio } from '../types';
 
 interface SidebarProps {
+  width: number;
   scene: StoryScene;
   onUpdate: (updated: StoryScene) => void;
   onGenerate: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ scene, onUpdate, onGenerate }) => {
+const Sidebar: React.FC<SidebarProps> = ({ width, scene, onUpdate, onGenerate }) => {
   return (
-    <aside className="w-96 bg-[#0a0a0a] border-l border-white/5 p-8 flex flex-col gap-8 overflow-y-auto shrink-0 z-10">
+    <aside 
+      style={{ width: `${width}px` }}
+      className="bg-[#0a0a0a] border-l border-white/5 p-8 flex flex-col gap-8 overflow-y-auto shrink-0 z-10"
+    >
       <div>
         <div className="flex items-center gap-2 mb-2">
            <span className="bg-[#ff6b00] text-black text-[10px] font-black px-2 py-0.5 rounded uppercase">Phân cảnh {scene.shotNumber}</span>
@@ -62,30 +66,11 @@ const Sidebar: React.FC<SidebarProps> = ({ scene, onUpdate, onGenerate }) => {
            <label className="text-[11px] text-gray-500 uppercase font-black tracking-wider">Kịch bản chi tiết</label>
            <textarea 
             value={scene.description}
-            onChange={(e) => onUpdate({...scene, description: e.target.value})}
-            rows={4}
+            onChange={(e) => onUpdate({...scene, description: e.target.value, visualPrompt: e.target.value})}
+            rows={8}
             className="w-full bg-[#161616] border border-white/10 rounded-xl p-4 text-sm leading-relaxed text-gray-400 focus:outline-none focus:border-[#ff6b00] transition-colors resize-none"
            />
-        </div>
-
-        <div className="space-y-2">
-           <div className="flex justify-between items-center">
-              <label className="text-[11px] text-gray-500 uppercase font-black tracking-wider">AI Visual Prompt</label>
-              <button 
-                onClick={() => onUpdate({...scene, visualPrompt: scene.description})}
-                className="text-[10px] text-[#ff6b00] font-bold hover:underline"
-              >
-                Đồng bộ kịch bản
-              </button>
-           </div>
-           <textarea 
-            value={scene.visualPrompt}
-            onChange={(e) => onUpdate({...scene, visualPrompt: e.target.value})}
-            rows={4}
-            placeholder="Mô tả cụ thể hình ảnh để AI vẽ sketch..."
-            className="w-full bg-[#161616] border border-white/10 rounded-xl p-4 text-sm leading-relaxed text-white focus:outline-none focus:border-[#ff6b00] transition-colors"
-           />
-           <p className="text-[10px] text-gray-600 italic">Mẹo: Thêm các từ như 'heavy shadows', 'pencil strokes' để sketch đẹp hơn.</p>
+           <p className="text-[10px] text-gray-600 italic">Mẹo: Hệ thống sẽ tự động dùng kịch bản này để làm mô tả cho AI vẽ phác thảo.</p>
         </div>
       </div>
 

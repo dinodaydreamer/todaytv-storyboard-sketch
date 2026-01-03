@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { StoryScene } from '../types';
 
 interface TimelineProps {
@@ -9,8 +9,47 @@ interface TimelineProps {
 }
 
 const Timeline: React.FC<TimelineProps> = ({ scenes, activeId, onSelect }) => {
+  const [height, setHeight] = useState(192); // 192px = h-48
+  const isResizing = useRef(false);
+
+  const startResizing = useCallback((e: React.MouseEvent) => {
+    isResizing.current = true;
+    e.preventDefault();
+  }, []);
+
+  const stopResizing = useCallback(() => {
+    isResizing.current = false;
+  }, []);
+
+  const resize = useCallback((e: MouseEvent) => {
+    if (isResizing.current) {
+      const newHeight = window.innerHeight - e.clientY;
+      if (newHeight > 100 && newHeight < 500) {
+        setHeight(newHeight);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResizing);
+    return () => {
+      window.removeEventListener('mousemove', resize);
+      window.removeEventListener('mouseup', stopResizing);
+    };
+  }, [resize, stopResizing]);
+
   return (
-    <div className="h-48 bg-[#0a0a0a] border-t border-[#222] relative flex flex-col shrink-0">
+    <div 
+      style={{ height: `${height}px` }}
+      className="bg-[#0a0a0a] border-t border-[#222] relative flex flex-col shrink-0"
+    >
+      {/* Handle kéo thả */}
+      <div 
+        onMouseDown={startResizing}
+        className="absolute top-[-4px] left-0 right-0 h-2 cursor-ns-resize hover:bg-[#ff6b00]/50 z-20 transition-colors"
+      />
+
       <div className="h-6 flex items-center px-4 border-b border-[#1a1a1a] text-[9px] text-gray-600 gap-10">
         <span className="text-orange-500">00:00</span>
         {Array.from({ length: 15 }).map((_, i) => (
@@ -23,8 +62,8 @@ const Timeline: React.FC<TimelineProps> = ({ scenes, activeId, onSelect }) => {
           <button
             key={scene.id}
             onClick={() => onSelect(scene.id)}
-            className={`relative min-w-[160px] h-[100px] border rounded transition-all duration-300 group overflow-hidden
-              ${activeId === scene.id ? 'border-[#ff6b00] scale-105 z-10 ring-2 ring-[#ff6b00]/20' : 'border-[#222] hover:border-[#444]'}`}
+            className={`relative min-w-[160px] h-full max-h-[140px] border rounded transition-all duration-300 group overflow-hidden
+              ${activeId === scene.id ? 'border-[#ff6b00] scale-[1.02] z-10 ring-2 ring-[#ff6b00]/20' : 'border-[#222] hover:border-[#444]'}`}
           >
             {scene.imageUrl ? (
               <img src={scene.imageUrl} className="w-full h-full object-cover" alt="" />

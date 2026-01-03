@@ -2,11 +2,14 @@
 import { GoogleGenAI } from "@google/genai";
 import { StoryScene, AspectRatio, ShotType } from "../types";
 
+// Generate a cinematic storyboard sketch using Gemini 3 Pro Image Preview.
+// This model supports high-quality 1K/2K/4K image generation.
 export const generateSketch = async (
-  scene: StoryScene,
-  apiKey: string
+  scene: StoryScene
 ): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey });
+  // Always create a new GoogleGenAI instance right before the call to use the latest API key.
+  // The API key is obtained exclusively from process.env.API_KEY.
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const systemPrompt = `Create a high-end cinematic storyboard sketch.
   ART STYLE: Professional charcoal and pencil rough sketch. Grayscale only. High contrast.
@@ -39,6 +42,7 @@ export const generateSketch = async (
 
     const candidates = response.candidates;
     if (candidates && candidates.length > 0 && candidates[0].content?.parts) {
+      // Iterate through parts to find the image data as recommended.
       for (const part of candidates[0].content.parts) {
         if (part.inlineData) {
           return `data:image/png;base64,${part.inlineData.data}`;

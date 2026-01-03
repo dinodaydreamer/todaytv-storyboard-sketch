@@ -40,28 +40,6 @@ const PreviewArea: React.FC<PreviewAreaProps> = ({ scene }) => {
           </div>
         )}
       </div>
-
-      {/* Thanh thông tin Cinematic theo mẫu */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-2xl px-12 py-5 rounded-[40px] border border-white/10 flex gap-12 items-center shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-         <div className="flex flex-col items-center min-w-[80px]">
-            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Phân cảnh</span>
-            <span className="text-2xl font-black text-[#ff6b00] leading-none">{scene.shotNumber}</span>
-         </div>
-         
-         <div className="h-10 w-px bg-white/5"></div>
-         
-         <div className="flex flex-col items-center min-w-[200px]">
-            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Cỡ cảnh</span>
-            <span className="text-xl font-bold text-white leading-none">{scene.shotType}</span>
-         </div>
-         
-         <div className="h-10 w-px bg-white/5"></div>
-         
-         <div className="flex flex-col items-center min-w-[80px]">
-            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Thời lượng</span>
-            <span className="text-xl font-bold text-white leading-none">{scene.duration}s</span>
-         </div>
-      </div>
     </div>
   );
 };

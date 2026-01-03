@@ -34,5 +34,4 @@ export interface AppState {
   isGeneratingAll: boolean;
   scriptInput: string;
   isApiReady: boolean;
-  apiKey: string;
 }
