@@ -8,18 +8,19 @@ export const generateSketch = async (
 ): Promise<string> => {
   const ai = new GoogleGenAI({ apiKey });
   
-  // Prompt tối ưu hóa: Không có chữ, phong cách sketch điện ảnh 1K
-  const systemPrompt = `Create a professional cinematic storyboard sketch.
-  ART STYLE: High-quality charcoal and pencil hand-drawn technique on white paper.
-  VISUAL CONTENT: ${scene.visualPrompt}.
-  SHOT COMPOSITION: ${scene.shotType}.
-  LIGHTING: Dramatic cinematic lighting, strong contrast, no colors.
-  MANDATORY RULES: 
-  - ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO NUMBERS.
-  - NO LABELS, NO SPEECH BUBBLES.
-  - NO OVERLAYS OR WATERMARKS.
-  - Pure visual cinematic artwork only.
-  - Professional film production storyboard quality.`;
+  // Prompt cực kỳ khắt khe về việc không có chữ/mũi tên
+  const systemPrompt = `Create a high-end cinematic storyboard sketch.
+  ART STYLE: Professional charcoal and pencil rough sketch. Grayscale only.
+  SCENE CONTENT: ${scene.visualPrompt}.
+  SHOT TYPE: ${scene.shotType}.
+  
+  CRITICAL STYLING RULES:
+  1. ABSOLUTELY NO TEXT. NO LETTERS. NO NUMBERS.
+  2. NO ARROWS, NO CAMERA MOVEMENT SYMBOLS.
+  3. NO SPEECH BUBBLES. NO LABELS.
+  4. NO WATERMARKS OR ARTIST SIGNATURES.
+  5. PURE VISUAL ARTWORK ONLY. 
+  6. CLEAN COMPOSITION FOR FILM PRODUCTION.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -45,7 +46,7 @@ export const generateSketch = async (
         }
       }
     }
-    throw new Error("Không tìm thấy dữ liệu ảnh.");
+    throw new Error("Không nhận được dữ liệu ảnh từ AI.");
   } catch (error) {
     console.error("Lỗi Gemini Pro:", error);
     throw error;
