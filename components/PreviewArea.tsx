@@ -11,7 +11,7 @@ const PreviewArea: React.FC<PreviewAreaProps> = ({ scene }) => {
 
   return (
     <div className="flex-1 bg-[#0c0c0c] flex items-center justify-center p-8 relative">
-      <div className={`relative shadow-2xl bg-[#111] border border-[#222] flex items-center justify-center overflow-hidden
+      <div className={`relative shadow-2xl bg-[#111] border border-[#222] flex items-center justify-center overflow-hidden transition-all duration-500
         ${scene.aspectRatio === '16:9' ? 'aspect-video w-full max-w-5xl' : 
           scene.aspectRatio === '9:16' ? 'aspect-[9/16] h-full' : 'aspect-square w-full max-w-2xl'}`}>
         
@@ -36,25 +36,30 @@ const PreviewArea: React.FC<PreviewAreaProps> = ({ scene }) => {
         {scene.status === 'generating' && (
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-10">
             <div className="w-12 h-12 border-4 border-[#ff6b00] border-t-transparent animate-spin rounded-full mb-4"></div>
-            <p className="text-[#ff6b00] font-bold tracking-widest uppercase">AI Đang phác thảo...</p>
+            <p className="text-[#ff6b00] font-bold tracking-widest uppercase text-xs">AI Đang phác thảo...</p>
           </div>
         )}
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-[#111]/80 backdrop-blur-md px-6 py-3 rounded-full border border-[#333] flex gap-8 items-center">
-         <div className="flex flex-col items-center">
-            <span className="text-[10px] text-gray-500 uppercase">Phân cảnh</span>
-            <span className="font-bold text-[#ff6b00]">{scene.shotNumber}</span>
+      {/* Thanh thông tin Cinematic theo mẫu */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-2xl px-12 py-5 rounded-[40px] border border-white/10 flex gap-12 items-center shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+         <div className="flex flex-col items-center min-w-[80px]">
+            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Phân cảnh</span>
+            <span className="text-2xl font-black text-[#ff6b00] leading-none">{scene.shotNumber}</span>
          </div>
-         <div className="h-6 w-px bg-[#333]"></div>
-         <div className="flex flex-col items-center">
-            <span className="text-[10px] text-gray-500 uppercase">Cỡ cảnh</span>
-            <span className="font-medium text-white">{scene.shotType}</span>
+         
+         <div className="h-10 w-px bg-white/5"></div>
+         
+         <div className="flex flex-col items-center min-w-[200px]">
+            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Cỡ cảnh</span>
+            <span className="text-xl font-bold text-white leading-none">{scene.shotType}</span>
          </div>
-         <div className="h-6 w-px bg-[#333]"></div>
-         <div className="flex flex-col items-center">
-            <span className="text-[10px] text-gray-500 uppercase">Thời lượng</span>
-            <span className="font-medium text-white">{scene.duration}s</span>
+         
+         <div className="h-10 w-px bg-white/5"></div>
+         
+         <div className="flex flex-col items-center min-w-[80px]">
+            <span className="text-[10px] text-gray-400 uppercase font-bold tracking-[0.15em] mb-1">Thời lượng</span>
+            <span className="text-xl font-bold text-white leading-none">{scene.duration}s</span>
          </div>
       </div>
     </div>
