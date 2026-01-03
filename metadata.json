@@ -1,5 +1,7 @@
 {
-  "name": "Sketch AI Storyboard",
-  "description": "Ứng dụng AI chuyên nghiệp giúp phân tích kịch bản và tạo storyboard dạng phác thảo (sketch) với timeline dựng phim.",
-  "requestFramePermissions": []
+  "name": "AI Sketch Storyboard",
+  "description": "Ứng dụng tạo storyboard chuyên nghiệp từ kịch bản bằng AI, tự động vẽ phác thảo đen trắng và xuất file PDF.",
+  "requestFramePermissions": [
+    "camera"
+  ]
 }

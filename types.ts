@@ -1,67 +1,38 @@
-export interface Shot {
-  id: string; // Unique ID for React keys
-  type: string; // e.g., Wide, Close-up
-  duration: number; // In seconds
-  description_vi: string; // Visual description in Vietnamese
-  prompt_en: string; // Generative AI prompt in English (Image)
-  prompt_video_en: string; // Generative AI prompt in English (Video) with camera movement
-  camera_movement?: string; // e.g., Pan, Tilt, Static
-  imageUrl?: string; // Generated image URL
+
+export enum ShotType {
+  CLOSE_UP = 'Cận cảnh (Close-up)',
+  MEDIUM = 'Trung cảnh (Medium Shot)',
+  WIDE = 'Toàn cảnh (Wide Shot)',
+  EXTREME_WIDE = 'Cực toàn cảnh (Extreme Wide)',
+  OVER_THE_SHOULDER = 'Qua vai (Over-the-shoulder)',
+  POINT_OF_VIEW = 'Góc nhìn nhân vật (POV)',
 }
 
-export interface Scene {
-  id: string;
-  scene_number: string;
-  header: string; // e.g., EXT. PARK - DAY
-  location: string;
-  time: string;
-  shots: Shot[];
+export enum AspectRatio {
+  SIXTEEN_NINE = '16:9',
+  ONE_ONE = '1:1',
+  NINE_SIXTEEN = '9:16',
+  FOUR_THREE = '4:3',
 }
 
-export interface Act {
+export interface StoryScene {
   id: string;
+  shotNumber: number;
   title: string;
-  scenes: Scene[];
-}
-
-export interface Character {
-  name: string;
   description: string;
+  visualPrompt: string;
+  imageUrl?: string;
+  duration: number; // giây
+  shotType: ShotType;
+  aspectRatio: AspectRatio;
+  status: 'idle' | 'generating' | 'completed' | 'error';
 }
 
-export interface ScriptAnalysis {
-  title: string;
-  genre: string;
-  logline_vi: string;
-  characters?: Character[];
-  acts: Act[];
-}
-
-export interface TimelineTrack {
-  id: string;
-  name: string;
-  type: 'video' | 'audio';
-  items: TimelineItem[];
-}
-
-export interface TimelineItem {
-  id: string;
-  start: number; // Start time in seconds
-  duration: number;
-  data: Shot;
-  sceneHeader: string;
-}
-
-export interface SavedProject {
-  version: string;
-  timestamp: string;
+export interface AppState {
+  scenes: StoryScene[];
+  currentSceneId: string | null;
+  isGeneratingAll: boolean;
   scriptInput: string;
-  analysisData: ScriptAnalysis | null;
-  timelineItems: TimelineItem[];
-}
-
-export interface LogEntry {
-  timestamp: string;
-  message: string;
-  type: 'info' | 'success' | 'error' | 'warning';
+  isApiReady: boolean;
+  apiKey: string;
 }
